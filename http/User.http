@@ -1,0 +1,30 @@
+@jwt = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlVkTmdacHZRaThreno0bUdXeGIwayJ9.eyJpc3MiOiJodHRwczovL2Rldi13MW92aW52emZqaGx2dWtmLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDExMTI5NTI0MTM0MDUzNzAwNzIxNiIsImF1ZCI6WyJodHRwczovL2Rldi13MW92aW52emZqaGx2dWtmLnVzLmF1dGgwLmNvbS9hcGkvdjIvIiwiaHR0cHM6Ly9kZXYtdzFvdmludnpmamhsdnVrZi51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNzQ5NTY4MTM1LCJleHAiOjE3NDk2NTQ1MzUsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJhenAiOiI2ZWtkSW1xQXVrd1pWRVN3Y2ZUYVoxMWc5aGE1bnNYdyJ9.nCGp7oQetCTEmXN9Bp6vYGk34tUK3n8gwaWKl3Xio8MUZ0NBfvqRgujY3gwkyk4hse86urQRSkvfVz43f82LJGxgeoDtp5vW2DdEkdbArlJ09f9-TpMjV0VhNP8wr4j3HfbFzi23VNKEsNWpn3wXzrsWrvYxK3f-caT4ZulXXhoSF02JW5ZOKlBuptEQS8NaX-lwrgV4fIEh2ruoSO1utR5bzqhEqPtWZL8mQLeP6jmlfIuP8tHkwibcbhvvjkipNzE9rvhXiaEf6NDEyMle07Tmy5dwUzq4oCnQ4Kj2yz1f1ccQZX0LTE7mp-IiM7vFNeEf8-Poo4CVT12zSos9mA
+
+### Vérifier le nombre d'utilisateurs
+GET http://localhost:8080/users/size
+Authorization: Bearer {{jwt}}
+Accept: application/json
+
+###
+
+### Récupérer la liste des utilisateurs
+GET http://localhost:8080/users
+Authorization: Bearer {{jwt}}
+Accept: application/json
+
+###
+
+### Mettre à jour un utilisateur
+PUT http://localhost:8080/user
+Authorization: Bearer {{jwt}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "auth0|68475a681e137535ad2ffd04",
+  "email": "nouvel_email@example.com",
+  "name": "Nouveau Nom",
+  "role": "GUEST",
+  "picture": "http://google.com",
+  "isActive": true
+}

@@ -1,4 +1,11 @@
 package com.aexils.pocspring.repository;
 
-public interface ProductAttributeRepository {
+import com.aexils.pocspring.entity.ProductAttribute;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ProductAttributeRepository extends JpaRepository<ProductAttribute, String> {
+
+    List<ProductAttribute> findByProductId(String productId);
 }

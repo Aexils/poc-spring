@@ -1,14 +1,15 @@
 package com.aexils.pocspring.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 public record ProductDTO(
-        String id,
-        String name,
-        String slug,
-        String description,
-        BigDecimal price,
-        boolean active,
-        String categoryId,
-        String categoryName
+        @JsonProperty("id") String id,
+        @JsonProperty("name") String name,
+        @JsonProperty("slug") String slug,
+        @JsonProperty("description") String description,
+        @JsonProperty("price") BigDecimal price,
+        @JsonProperty("active") boolean active,
+        @JsonProperty("categoryId") String categoryId,
+        @JsonProperty("categoryName") String categoryName
 ) {}

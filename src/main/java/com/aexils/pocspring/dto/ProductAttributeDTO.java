@@ -1,3 +1,5 @@
+package com.aexils.pocspring.dto;
+
 public record ProductAttributeDTO(
         String id,
         String name,
