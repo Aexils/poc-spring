@@ -1,8 +1,8 @@
 package com.aexils.pocspring.mapper;
 
 import com.aexils.pocspring.dto.ProductAttributeDTO;
+import com.aexils.pocspring.entity.Product;
 import com.aexils.pocspring.entity.ProductAttribute;
-import com.aexils.pocspring.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,26 +10,31 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProductAttributeMapper {
 
-    private final ProductRepository productRepository;
-
     public ProductAttributeDTO toDTO(ProductAttribute attr) {
         return new ProductAttributeDTO(
                 attr.getId(),
                 attr.getName(),
                 attr.getValue(),
                 attr.getType(),
-                attr.getProduct().getId()
+                attr.getProduct() != null ? attr.getProduct().getId() : null
         );
     }
 
-    public ProductAttribute fromDTO(ProductAttributeDTO dto) {
-        ProductAttribute attr = new ProductAttribute();
-        attr.setId(dto.id());
-        attr.setName(dto.name());
-        attr.setValue(dto.value());
-        attr.setType(dto.type());
-        attr.setProduct(productRepository.findById(dto.productId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID")));
-        return attr;
+    public ProductAttribute fromDTO(ProductAttributeDTO dto, Product product) {
+            ProductAttribute productAttribute = new ProductAttribute();
+            productAttribute.setProduct(product);
+            productAttribute.setName(dto.name());
+            productAttribute.setValue(dto.value());
+            productAttribute.setType(dto.type());
+
+        return productAttribute;
+    }
+
+    public ProductAttribute updateFromDTO(ProductAttributeDTO dto, ProductAttribute productAttribute) {
+        productAttribute.setName(dto.name());
+        productAttribute.setValue(dto.value());
+        productAttribute.setType(dto.type());
+
+        return productAttribute;
     }
 }

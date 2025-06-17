@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +20,19 @@ public class CategoryService {
     public List<CategoryDTO> findAll() {
         return categoryRepository.findAll().stream()
                 .map(categoryMapper::toDTO)
+                .sorted((c1, c2) -> {
+                    String name1 = Optional.ofNullable(c1.name()).orElse("");
+                    String name2 = Optional.ofNullable(c2.name()).orElse("");
+
+                    if ("Toutes catégories".equalsIgnoreCase(name1)) return -1;
+                    if ("Toutes catégories".equalsIgnoreCase(name2)) return 1;
+
+                    return name1.compareToIgnoreCase(name2);
+                })
                 .toList();
     }
+
+
 
     public CategoryDTO findById(String id) {
         return categoryMapper.toDTO(

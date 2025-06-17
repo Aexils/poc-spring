@@ -1,10 +1,9 @@
 package com.aexils.pocspring.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "product_images")
@@ -13,6 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class ProductImage {
     @Id
     private String id;
@@ -21,6 +21,14 @@ public class ProductImage {
 
     private boolean isMain;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
+
+    @PrePersist
+    public void generateId() {
+        if (this.id == null || this.id.isBlank()) {
+            this.id = UUID.randomUUID().toString();
+        }
+    }
 }

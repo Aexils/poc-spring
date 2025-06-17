@@ -1,0 +1,26 @@
+{
+  "Livres": [
+    { "name": "Auteur", "type": "text" },
+    { "name": "Éditeur", "type": "text" },
+    { "name": "Année de publication", "type": "number" },
+    { "name": "ISBN", "type": "text" },
+    { "name": "Langue", "type": "text" },
+    { "name": "Nombre de pages", "type": "number" },
+    { "name": "Format", "type": "select", "options": ["Broché", "Relié", "Poche", "Numérique"] },
+    { "name": "Genre", "type": "text" },
+    { "name": "Édition", "type": "text" },
+    { "name": "Collection", "type": "text" }
+  ],
+  "Jeux vidéo": [
+    { "name": "Développeur", "type": "text" },
+    { "name": "Éditeur", "type": "text" },
+    { "name": "Plateforme", "type": "select", "options": ["PC", "PS4", "PS5", "Switch", "Xbox"] },
+    { "name": "Année de sortie", "type": "number" },
+    { "name": "Genre", "type": "select", "options": ["RPG", "Action", "Puzzle", "Horreur", "Aventure", "Simulation"] },
+    { "name": "PEGI", "type": "number" },
+    { "name": "Multijoueur", "type": "boolean" },
+    { "name": "Fonctionnalités en ligne", "type": "boolean" },
+    { "name": "Langue", "type": "text" },
+    { "name": "Moteur de jeu", "type": "text" }
+  ]
+}

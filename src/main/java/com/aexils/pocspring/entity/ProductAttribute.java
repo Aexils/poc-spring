@@ -1,9 +1,7 @@
 package com.aexils.pocspring.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -15,9 +13,12 @@ import lombok.*;
 @Builder
 public class ProductAttribute {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private String name; // ex : "Color", "Material", "Weight"

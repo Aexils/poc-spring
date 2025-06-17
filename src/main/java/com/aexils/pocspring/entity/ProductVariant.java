@@ -1,9 +1,6 @@
 package com.aexils.pocspring.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -17,6 +14,7 @@ import java.math.BigDecimal;
 @Builder
 public class ProductVariant {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @ManyToOne
@@ -29,3 +27,4 @@ public class ProductVariant {
 
     private boolean active;
 }
+

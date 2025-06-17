@@ -16,20 +16,7 @@ public class ProductVariantController {
 
     @GetMapping
     public List<ProductVariantDTO> getAll(@PathVariable String productId) {
-        return service.findByProduct(productId);
-    }
-
-    @PostMapping
-    public ProductVariantDTO create(@PathVariable String productId,
-                                    @RequestBody ProductVariantDTO dto) {
-        return service.create(new ProductVariantDTO(
-                null,
-                dto.variantName(),
-                dto.priceOverride(),
-                dto.stock(),
-                dto.active(),
-                productId
-        ));
+        return service.findByProductId(productId);
     }
 
     @DeleteMapping("/{id}")

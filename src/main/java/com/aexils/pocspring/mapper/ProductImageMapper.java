@@ -12,22 +12,14 @@ public class ProductImageMapper {
 
     private final ProductRepository productRepository;
 
-    public ProductImageDTO toDTO(ProductImage image) {
+    public ProductImageDTO toDto(ProductImage image) {
+        if (image == null) return null;
+
         return new ProductImageDTO(
                 image.getId(),
                 image.getUrl(),
                 image.isMain(),
-                image.getProduct().getId()
+                image.getProduct() != null ? image.getProduct().getId() : null
         );
-    }
-
-    public ProductImage fromDTO(ProductImageDTO dto) {
-        ProductImage image = new ProductImage();
-        image.setId(dto.id());
-        image.setUrl(dto.url());
-        image.setMain(dto.isMain());
-        image.setProduct(productRepository.findById(dto.productId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID")));
-        return image;
     }
 }

@@ -33,22 +33,33 @@ public class ProductController {
         return ResponseEntity.ok(productService.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getOne(@PathVariable("id") String id, @AuthenticationPrincipal Jwt principal) {
+    @GetMapping("/size")
+    public ResponseEntity<Integer> GetUserFromJWT(@AuthenticationPrincipal Jwt principal) {
         if (!isAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        return ResponseEntity.ok(productService.findById(id));
+
+        Integer productSize = productService.getNumberOfProducts();
+
+        return ResponseEntity.ok(productSize);
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<ProductDTO> findBySlug(@PathVariable("slug") String slug, @AuthenticationPrincipal Jwt principal) {
+        if (!isAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.ok(productService.findBySlug(slug));
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> create(@AuthenticationPrincipal Jwt principal, @RequestBody ProductDTO dto) {
+    public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO dto, @AuthenticationPrincipal Jwt principal) {
         if (!isAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        return ResponseEntity.ok(productService.create(dto));
+        ProductDTO created = productService.create(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable("id") String id, @RequestBody ProductDTO dto, @AuthenticationPrincipal Jwt principal) {
         if (!isAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        return ResponseEntity.ok(productService.update(id, dto));
+        ProductDTO updated = productService.update(id, dto);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")

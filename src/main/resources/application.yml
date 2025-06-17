@@ -35,6 +35,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        event:
+          merge:
+            entity_copy_observer=allow:
 
   # ? Mail (via MailDev)
   mail:
@@ -69,6 +72,10 @@ management:
   endpoint:
     health:
       show-details: always
+
+  web:
+    resources:
+      static-locations: file:uploads/
 
 logging:
   level:

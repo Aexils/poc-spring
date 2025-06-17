@@ -14,4 +14,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("Authorization", "Content-Type", "Accept")
                 .allowCredentials(true);
     }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:uploads/");
+    }
 }

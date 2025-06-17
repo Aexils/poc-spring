@@ -19,18 +19,6 @@ public class ProductAttributeController {
         return service.findByProduct(productId);
     }
 
-    @PostMapping
-    public ProductAttributeDTO create(@PathVariable String productId,
-                                      @RequestBody ProductAttributeDTO dto) {
-        return service.create(new ProductAttributeDTO(
-                null,
-                dto.name(),
-                dto.value(),
-                dto.type(),
-                productId
-        ));
-    }
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         service.delete(id);

@@ -1,16 +1,12 @@
 package com.aexils.pocspring.mapper;
 
 import com.aexils.pocspring.dto.ProductVariantDTO;
+import com.aexils.pocspring.entity.Product;
 import com.aexils.pocspring.entity.ProductVariant;
-import com.aexils.pocspring.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class ProductVariantMapper {
-
-    private final ProductRepository productRepository;
 
     public ProductVariantDTO toDTO(ProductVariant variant) {
         return new ProductVariantDTO(
@@ -19,19 +15,28 @@ public class ProductVariantMapper {
                 variant.getPriceOverride(),
                 variant.getStock(),
                 variant.isActive(),
-                variant.getProduct().getId()
+                variant.getProduct() != null ? variant.getProduct().getId() : null
+
         );
     }
 
-    public ProductVariant fromDTO(ProductVariantDTO dto) {
-        ProductVariant variant = new ProductVariant();
-        variant.setId(dto.id());
-        variant.setVariantName(dto.variantName());
-        variant.setPriceOverride(dto.priceOverride());
-        variant.setStock(dto.stock());
-        variant.setActive(dto.active());
-        variant.setProduct(productRepository.findById(dto.productId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid product ID")));
-        return variant;
+    public ProductVariant fromDTO(ProductVariantDTO dto, Product product) {
+        ProductVariant productVariant = new ProductVariant();
+        productVariant.setVariantName(dto.variantName());
+        productVariant.setProduct(product);
+        productVariant.setStock(dto.stock());
+        productVariant.setActive(dto.active());
+        productVariant.setPriceOverride(dto.priceOverride());
+
+        return productVariant;
+    }
+
+    public ProductVariant updateFromDTO(ProductVariantDTO dto, ProductVariant productVariant) {
+        productVariant.setVariantName(dto.variantName());
+        productVariant.setStock(dto.stock());
+        productVariant.setActive(dto.active());
+        productVariant.setPriceOverride(dto.priceOverride());
+
+        return productVariant;
     }
 }
