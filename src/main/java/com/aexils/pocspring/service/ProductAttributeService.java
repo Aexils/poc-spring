@@ -16,12 +16,10 @@ import java.util.List;
 public class ProductAttributeService {
 
     private final ProductAttributeRepository attributeRepository;
-    private final ProductAttributeMapper mapper;
-    private final ProductRepository productRepository;
 
     public List<ProductAttributeDTO> findByProduct(String productId) {
         return attributeRepository.findByProductId(productId)
-                .stream().map(mapper::toDTO).toList();
+                .stream().map(ProductAttributeMapper::toDTO).toList();
     }
 
     public void delete(String id) {

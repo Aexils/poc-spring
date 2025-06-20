@@ -3,6 +3,10 @@ package com.aexils.pocspring.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 @Entity
 @Table(name = "customers")
 @Getter
@@ -13,21 +17,19 @@ import lombok.*;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id = UUID.randomUUID().toString();
 
     private String firstName;
     private String lastName;
-    private String address;
     private String phone;
 
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-    private BillingAddress billingAddress;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BillingAddress> billingAddresses = new ArrayList<>();
 
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-    private ShippingAddress shippingAddress;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ShippingAddress> shippingAddresses = new ArrayList<>();
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
     private User user;
 }

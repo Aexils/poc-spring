@@ -35,6 +35,12 @@ public class User {
     @ManyToOne
     private Store store;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Customer customer;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

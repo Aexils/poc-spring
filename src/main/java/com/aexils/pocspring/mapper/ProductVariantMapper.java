@@ -3,12 +3,10 @@ package com.aexils.pocspring.mapper;
 import com.aexils.pocspring.dto.ProductVariantDTO;
 import com.aexils.pocspring.entity.Product;
 import com.aexils.pocspring.entity.ProductVariant;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ProductVariantMapper {
 
-    public ProductVariantDTO toDTO(ProductVariant variant) {
+    public static ProductVariantDTO toDTO(ProductVariant variant) {
         return new ProductVariantDTO(
                 variant.getId(),
                 variant.getVariantName(),
@@ -20,7 +18,7 @@ public class ProductVariantMapper {
         );
     }
 
-    public ProductVariant fromDTO(ProductVariantDTO dto, Product product) {
+    public static ProductVariant fromDTO(ProductVariantDTO dto, Product product) {
         ProductVariant productVariant = new ProductVariant();
         productVariant.setVariantName(dto.variantName());
         productVariant.setProduct(product);
@@ -31,7 +29,7 @@ public class ProductVariantMapper {
         return productVariant;
     }
 
-    public ProductVariant updateFromDTO(ProductVariantDTO dto, ProductVariant productVariant) {
+    public static ProductVariant updateFromDTO(ProductVariantDTO dto, ProductVariant productVariant) {
         productVariant.setVariantName(dto.variantName());
         productVariant.setStock(dto.stock());
         productVariant.setActive(dto.active());

@@ -1,9 +1,9 @@
 package com.aexils.pocspring.controller;
 
-import com.aexils.pocspring.dto.UserDto;
-import com.aexils.pocspring.dto.UserResponseDto;
+import com.aexils.pocspring.dto.UserDTO;
 import com.aexils.pocspring.entity.User;
 import com.aexils.pocspring.mapper.UserMapper;
+import com.aexils.pocspring.service.CustomerService;
 import com.aexils.pocspring.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +22,10 @@ public class AuthController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final CustomerService customerService;
 
     @PostMapping("/auth/me")
-    public ResponseEntity<UserResponseDto> registerOrLogin(@AuthenticationPrincipal Jwt principal) {
+    public ResponseEntity<UserDTO> registerOrLogin(@AuthenticationPrincipal Jwt principal) {
         if (principal == null) {
             throw new ResponseStatusException(UNAUTHORIZED, "Unauthorized");
         }
@@ -33,14 +34,14 @@ public class AuthController {
         User user = userService.findById(userMapped.getId());
 
         if (user == null) {
-            user = userService.register(userMapped);
+            user = userService.registerOrLogin(userMapped);
         }
 
-        return ResponseEntity.ok(UserResponseDto.from(user));
+        return ResponseEntity.ok(UserMapper.toDTO(user));
     }
 
     @GetMapping("/auth/me")
-    public ResponseEntity<UserResponseDto> getCurrentUser(@AuthenticationPrincipal Jwt principal) {
+    public ResponseEntity<UserDTO> getCurrentUser(@AuthenticationPrincipal Jwt principal) {
         if (principal == null) {
             throw new ResponseStatusException(UNAUTHORIZED, "Unauthorized");
         }
@@ -50,6 +51,7 @@ public class AuthController {
             throw new ResponseStatusException(NOT_FOUND, "User not found");
         }
 
-        return ResponseEntity.ok(UserResponseDto.from(user));
+        return ResponseEntity.ok(UserMapper.toDTO(user));
+
     }
 }

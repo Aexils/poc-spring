@@ -1,17 +1,18 @@
 package com.aexils.pocspring.service;
 
+import com.aexils.pocspring.dto.CartDTO;
 import com.aexils.pocspring.dto.CartItemDTO;
 import com.aexils.pocspring.entity.Cart;
 import com.aexils.pocspring.entity.CartItem;
 import com.aexils.pocspring.entity.ProductVariant;
 import com.aexils.pocspring.entity.User;
+import com.aexils.pocspring.mapper.CartMapper;
 import com.aexils.pocspring.repository.CartItemRepository;
 import com.aexils.pocspring.repository.CartRepository;
 import com.aexils.pocspring.repository.ProductVariantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,17 +24,13 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductVariantRepository productVariantRepository;
 
-    public Cart getOrCreateCartForUser(User user) {
-        return cartRepository.findByUserId(user.getId())
-                .orElseGet(() -> cartRepository.save(Cart.builder()
-                        .id(UUID.randomUUID().toString())
-                        .user(user)
-                        .items(new ArrayList<>())
-                        .build()));
+    public CartDTO getCart(User user) {
+        Cart cart = cartRepository.findByUserId(user.getId());
+        return CartMapper.toDTO(cart);
     }
 
     public Cart addItem(User user, CartItemDTO dto) {
-        Cart cart = getOrCreateCartForUser(user);
+        Cart cart = cartRepository.findByUserId(user.getId());
         ProductVariant variant = productVariantRepository.findById(dto.variantId())
                 .orElseThrow(() -> new RuntimeException("Variant not found"));
 
@@ -57,7 +54,7 @@ public class CartService {
     }
 
     public Cart updateItem(User user, String variantId, int quantity) {
-        Cart cart = getOrCreateCartForUser(user);
+        Cart cart = cartRepository.findByUserId(user.getId());
         CartItem item = cartItemRepository.findByCartIdAndVariantId(cart.getId(), variantId)
                 .orElseThrow(() -> new RuntimeException("Item not found"));
 
@@ -76,7 +73,7 @@ public class CartService {
     }
 
     public Cart clearCart(User user) {
-        Cart cart = getOrCreateCartForUser(user);
+        Cart cart = cartRepository.findByUserId(user.getId());
         cart.getItems().clear();
         return cartRepository.save(cart);
     }

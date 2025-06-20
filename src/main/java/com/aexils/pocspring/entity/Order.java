@@ -6,6 +6,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "orders")
@@ -16,7 +17,7 @@ import java.util.List;
 @Builder
 public class Order {
     @Id
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     @ManyToOne
     private User customer;

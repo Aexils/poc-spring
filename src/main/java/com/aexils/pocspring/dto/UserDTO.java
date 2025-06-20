@@ -3,13 +3,13 @@ package com.aexils.pocspring.dto;
 import lombok.Builder;
 
 @Builder
-public record UserResponseDto(
+public record UserDTO(
         String id,
         String email,
         String name,
-        boolean active,
-        String role,
         String picture,
+        String role,
+        boolean active,
         CustomerDTO customer,
         CartDTO cart
 ) {}

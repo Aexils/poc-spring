@@ -1,8 +1,13 @@
 package com.aexils.pocspring.dto;
 
+import com.aexils.pocspring.entity.Cart;
+import com.aexils.pocspring.entity.Customer;
+import lombok.Builder;
+
 import java.util.List;
 
-public record CartDTO<CartItemDTO>(
+@Builder
+public record CartDTO(
         String id,
         List<CartItemDTO> items
 ) {}

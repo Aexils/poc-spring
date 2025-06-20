@@ -4,6 +4,8 @@ import com.aexils.pocspring.entity.Address;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "shipping_addresses")
 @Getter
@@ -14,9 +16,9 @@ import lombok.*;
 public class ShippingAddress extends Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id = UUID.randomUUID().toString();
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 }

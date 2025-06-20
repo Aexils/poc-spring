@@ -15,11 +15,10 @@ import java.util.UUID;
 public class ProductVariantService {
 
     private final ProductVariantRepository repository;
-    private final ProductVariantMapper mapper;
 
     public List<ProductVariantDTO> findByProductId(String productId) {
         return repository.findByProductId(productId)
-                .stream().map(mapper::toDTO).toList();
+                .stream().map(ProductVariantMapper::toDTO).toList();
     }
 
     public void delete(String id) {

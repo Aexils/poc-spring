@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "carts")
@@ -15,7 +16,7 @@ import java.util.List;
 @Builder
 public class Cart {
     @Id
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     @OneToOne
     private User user;

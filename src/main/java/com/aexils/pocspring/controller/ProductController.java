@@ -14,28 +14,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/products")
+@RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
     private final UserService userService;
 
-    private boolean isAdmin(Jwt principal) {
-        if (principal == null) return false;
-        User user = userService.findById(principal.getClaim("sub"));
-        return user != null && user.getRole() == User.Role.ADMIN;
-    }
-
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getAll(@AuthenticationPrincipal Jwt principal) {
-        if (!isAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         return ResponseEntity.ok(productService.findAll());
     }
 
     @GetMapping("/size")
     public ResponseEntity<Integer> GetUserFromJWT(@AuthenticationPrincipal Jwt principal) {
-        if (!isAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         Integer productSize = productService.getNumberOfProducts();
 
@@ -44,28 +36,6 @@ public class ProductController {
 
     @GetMapping("/slug/{slug}")
     public ResponseEntity<ProductDTO> findBySlug(@PathVariable("slug") String slug, @AuthenticationPrincipal Jwt principal) {
-        if (!isAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         return ResponseEntity.ok(productService.findBySlug(slug));
-    }
-
-    @PostMapping
-    public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO dto, @AuthenticationPrincipal Jwt principal) {
-        if (!isAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        ProductDTO created = productService.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable("id") String id, @RequestBody ProductDTO dto, @AuthenticationPrincipal Jwt principal) {
-        if (!isAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        ProductDTO updated = productService.update(id, dto);
-        return ResponseEntity.ok(updated);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") String id, @AuthenticationPrincipal Jwt principal) {
-        if (!isAdmin(principal)) return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        productService.delete(id);
-        return ResponseEntity.ok().build();
     }
 }

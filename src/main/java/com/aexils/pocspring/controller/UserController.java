@@ -1,8 +1,8 @@
 package com.aexils.pocspring.controller;
 
-import com.aexils.pocspring.dto.UserDto;
-import com.aexils.pocspring.dto.UserResponseDto;
+import com.aexils.pocspring.dto.UserDTO;
 import com.aexils.pocspring.entity.User;
+import com.aexils.pocspring.mapper.UserMapper;
 import com.aexils.pocspring.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,8 +54,8 @@ public class UserController {
     }
 
     @PutMapping("/user")
-    public ResponseEntity<UserResponseDto> updateUser(
-            @Valid @RequestBody UserDto userDto,
+    public ResponseEntity<UserDTO> updateUser(
+            @Valid @RequestBody UserDTO userDto,
             @AuthenticationPrincipal Jwt principal
     ) {
         if (principal == null) {
@@ -81,7 +80,8 @@ public class UserController {
         }
 
         User updated = userService.updateUser(userToUpdate, userDto);
-        return ResponseEntity.ok(UserResponseDto.from(updated));
+        return ResponseEntity.ok(UserMapper.toDTO(updated));
+
     }
 
 }
