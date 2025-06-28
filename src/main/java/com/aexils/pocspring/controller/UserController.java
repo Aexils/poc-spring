@@ -11,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> GetAllUsers(
+    public ResponseEntity<List<UserDTO>> GetAllUsers(
             @AuthenticationPrincipal Jwt principal
     ) {
         if (principal == null) {
@@ -49,8 +50,12 @@ public class UserController {
         }
 
         List<User> users = userService.findAllUsers();
+        List<UserDTO> list = new ArrayList<>();
+        for (User user : users) {
+            list.add(UserMapper.toDTO(user));
+        }
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(list);
     }
 
     @PutMapping("/user")

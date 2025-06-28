@@ -6,6 +6,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UserMapper {
@@ -28,8 +30,27 @@ public class UserMapper {
                 .picture(user.getPicture())
                 .role(user.getRole().name())
                 .active(user.isActive())
+                .createdAt(user.getCreatedAt())
                 .customer(user.getCustomer() != null ? CustomerMapper.toDTO(user.getCustomer()) : null)
                 .cart(user.getCart() != null ? CartMapper.toDTO(user.getCart()) : null)
                 .build();
+    }
+
+    public static List<UserDTO> AllUsersToDTO(List<User> users) {
+        List<UserDTO> list = new ArrayList<>();
+        for (User user : users) {
+            list.add(UserDTO.builder()
+                    .id(user.getId())
+                    .email(user.getEmail())
+                    .name(user.getName())
+                    .picture(user.getPicture())
+                    .role(user.getRole().name())
+                    .active(user.isActive())
+                    .createdAt(user.getCreatedAt())
+                    .customer(user.getCustomer() != null ? CustomerMapper.toDTO(user.getCustomer()) : null)
+                    .cart(user.getCart() != null ? CartMapper.toDTO(user.getCart()) : null)
+                    .build());
+        }
+        return list;
     }
 }

@@ -7,6 +7,7 @@ import lombok.Builder;
 public record CartItemDTO(
         String id,
         int quantity,
+        String price,
         String variantId,
         ProductDTO product
 ) {}

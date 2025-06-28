@@ -30,7 +30,7 @@ public class User {
     private Role role = Role.GUEST;
 
     @Builder.Default
-    private boolean isActive = true;
+    private boolean active = true;
 
     @ManyToOne
     private Store store;
