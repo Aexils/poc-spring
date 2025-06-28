@@ -1,0 +1,85 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: poc-spring
+
+  # ? S�curit� OAuth2 (via Keycloak ou autre)
+  security:
+    oauth2:
+#      client:
+#        registration:
+#          auth0:
+#            client-id: 6ekdImqAukwZVESwcfTaZ11g9ha5nsXw
+#            client-secret: aTRJWxnmT1GVvTgC39WYo0D27D0rGIwOcLHk7N8DY5Wa9uVcvkSoY09b_uxO9xDU
+#            authorization-grant-type: authorization_code
+#            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+#            scope: openid, profile, email
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-w1ovinvzfjhlvukf.us.auth0.com/
+
+  # ? Base de donn�es PostgreSQL (via Docker)
+  datasource:
+    url: jdbc:postgresql://postgres:5432/ecommerce
+    username: dev
+    password: dev
+    driver-class-name: org.postgresql.Driver
+
+  # ? JPA / Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        event:
+          merge:
+            entity_copy_observer=allow:
+
+  # ? Mail (via MailDev)
+  mail:
+    host: localhost
+    port: 1025
+    username: ''
+    password: ''
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+  # ? Kafka (producteur / consommateur)
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ecommerce-consumer
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+  web:
+    resources:
+      static-locations: file:uploads/
+
+logging:
+  level:
+    org.springframework.web: INFO
+    org.springframework.web.filter.CommonsRequestLoggingFilter: INFO
+    org.springframework.security: INFO
+
